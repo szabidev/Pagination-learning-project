@@ -1,0 +1,40 @@
+@import "../../../style/variables";
+
+.searchbar {
+  width: 700px;
+  position: relative;
+  margin: 0 auto;
+
+  &__input {
+    width: 700px;
+    padding: 2rem;
+    border-radius: 30px;
+    border: none;
+    font-size: 2.2rem;
+    color: $input-font-color;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      font-size: 2.2rem;
+      letter-spacing: 0.2rem;
+      color: $input-font-color;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: 7px;
+    right: -40px;
+    border: none;
+    background-color: #fff;
+    padding: 1rem 2rem;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    cursor: pointer;
+
+    // hover effect???
+  }
+}

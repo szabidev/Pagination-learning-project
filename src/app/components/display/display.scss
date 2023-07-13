@@ -2,4 +2,7 @@
   display: flex;
   padding: 5rem 6rem;
   overflow-x: hidden;
+  gap: 5rem;
+
+  // to show only 3 images on laptop width,  on hover create after element which shows image description or image creator description
 }

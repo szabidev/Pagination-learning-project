@@ -4,18 +4,26 @@ import SearchBar from "../searchbar";
 
 import "../../../style/main.scss";
 import Display from "../display";
+import Pagination from "../pagination";
 
 const Gallery = () => {
   const [image, setImage] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("landscape");
+  const numberOfItems = "&per_page=60";
+
+  // for pagination
+  const [currentPage, setCurrentPage] = useState<number>(5);
+  const [imagePerPage] = useState<number>(3);
 
   const clientId = "hn9AB9ssfHtwEEYspleFrtZZcnS-X52aGiisoFKzhJY";
   const url =
     "https://api.unsplash.com/search/photos?client_id=" +
     clientId +
     "&query=" +
-    searchTerm;
+    searchTerm +
+    numberOfItems;
 
+  console.log(url);
   useEffect(() => {
     fetch(url)
       .then((res) => {
@@ -33,6 +41,9 @@ const Gallery = () => {
     setSearchTerm(keyword);
   };
 
+  // function to change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   // Loading screen if url is not working
   if (!image) {
     return <div className="loading">Loading...</div>;
@@ -40,9 +51,15 @@ const Gallery = () => {
 
   return (
     <div className="gallery-container">
-      <h1 className="project-title">Carousel project</h1>
+      <h1 className="project-title">Pagination project</h1>
       <SearchBar onSearch={handleSearch} />
       <Display imagesToShow={image} />
+      <Pagination
+        totalPosts={image.length}
+        imagePerPage={imagePerPage}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
     </div>
   );
 };

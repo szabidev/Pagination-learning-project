@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useEffect, FC } from "react";
+import { FC } from "react";
 
 import { ImageToDisplayProps } from "./types";
 
@@ -10,15 +10,15 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
 
   return (
     <div className="image__container">
-      <Image
-        src={image.urls.regular}
-        alt={image.alt_description}
-        width={300}
-        height={300}
-        // layout="fill"
-        // objectFit="contain"
-        className="image-to-display"
-      />
+      <div className="image__wrapper">
+        <Image
+          src={image.urls.regular}
+          alt={image.alt_description}
+          width={300}
+          height={300}
+          className="image-to-display"
+        />
+      </div>
       <div className="image__info">
         <p className="image__info--tags">{`#${image.tags[0].title}`}</p>
         <p className="image__info--tags">{`#${image.tags[1].title}`}</p>

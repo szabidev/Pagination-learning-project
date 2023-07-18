@@ -1,47 +1,98 @@
+"use client";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface PaginationProps {
   totalPosts: number;
   imagePerPage: number;
+  pagesInView: number;
   currentPage: number;
-  paginate: (pageNumber: number) => void;
+  setCurrentPage: (page: number) => void;
 }
 
 const Pagination: FC<PaginationProps> = ({
   totalPosts,
   imagePerPage,
-  paginate,
+  pagesInView,
   currentPage,
+  setCurrentPage,
 }) => {
-  const pageNumbers: number[] = [];
-  const pageInView = 2;
-  const totalPageNumber = pageNumbers[pageNumbers.length - 1];
-  const prevPages: number[] = [];
-  const nextPages: number[] = [];
+  const [pageDisplayed, setPageDisplayed] = useState<number[]>([]);
+  const totalPages = Math.ceil(totalPosts / imagePerPage);
 
-  for (let i = 1; i <= Math.ceil(totalPosts / imagePerPage); i++) {
-    pageNumbers.push(i);
-  }
+  const calculatePages = (currentPage: number) => {
+    const showLeftAndRight = Math.floor(pagesInView / 2);
+    const stepLeft = currentPage - showLeftAndRight;
+    const lastPageInView =
+      pagesInView % 2 === 0
+        ? currentPage + showLeftAndRight - 1
+        : currentPage + showLeftAndRight;
 
-  for (let i = currentPage; i >= currentPage - pageInView; i--) {
-    // if ((i = 1)) {
-    //   return;
-    // }
-    prevPages.push(i);
-    prevPages.sort();
-  }
+    const leftLimitPage = stepLeft < 1 ? 1 : stepLeft;
+    const rightLimitPage = stepLeft < 1 ? pagesInView : lastPageInView;
 
-  for (let i = currentPage; i <= currentPage + pageInView; i++) {
-    // if ((i = totalPageNumber)) {
-    //   return;
-    // }
-    nextPages.push(i);
-  }
+    let prevPage = leftLimitPage;
+    let nextPage = rightLimitPage;
 
-  // creating a Set to easily remove duplicate from array
-  const pagesToDisplay = [...new Set(prevPages.concat(nextPages))];
-  console.log("🚀 ~ file: pagination.tsx:23 ~ pagesToDisplay:", pagesToDisplay);
+    if (stepLeft < 1) {
+      prevPage = 1;
+      nextPage = pagesInView;
+    } else {
+      if (rightLimitPage > totalPages) {
+        nextPage = totalPages;
+        const nextStep = rightLimitPage - totalPages;
+        prevPage = leftLimitPage - nextStep;
+      }
+    }
+
+    const pageNumbers = [];
+
+    for (let i = prevPage; i <= nextPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
+  };
+
+  useEffect(() => {
+    setPageDisplayed(calculatePages(currentPage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
+
+  const changePage = (page: number) => {
+    setCurrentPage(page);
+    calculatePages(page);
+  };
+
+  const onPrevClick = (currentPage: number) => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+      calculatePages(currentPage);
+    }
+  };
+
+  const onDblPrevClick = (currentPage: number) => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+      calculatePages(currentPage);
+    }
+  };
+
+  const onNextClick = (currentPage: number) => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(currentPage + 1);
+      calculatePages(currentPage);
+    }
+  };
+
+  const onDblNextClick = (currentPage: number) => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(totalPages);
+      calculatePages(currentPage);
+    }
+  };
+
+  console.log(currentPage);
 
   return (
     <div className="pagination__container">
@@ -52,6 +103,7 @@ const Pagination: FC<PaginationProps> = ({
             alt="left arrow"
             width={32}
             height={32}
+            onClick={() => onPrevClick(currentPage)}
           />
         </div>
         <div className="pagination__dbl--left--btn">
@@ -60,15 +112,16 @@ const Pagination: FC<PaginationProps> = ({
             alt="double left arrow"
             width={48}
             height={48}
+            onClick={() => onDblPrevClick(currentPage)}
           />
         </div>
         <div className="pagination__numbers">
-          {pagesToDisplay.map((number) => {
+          {pageDisplayed.map((number) => {
             return (
               <div
                 className="pagination__number"
                 key={number}
-                onClick={() => paginate(number)}
+                onClick={() => changePage(number)}
               >
                 {number}
               </div>
@@ -81,6 +134,7 @@ const Pagination: FC<PaginationProps> = ({
             alt="double right arrow"
             width={48}
             height={48}
+            onClick={() => onDblNextClick(currentPage)}
           />
         </div>
         <div className="pagination__right--btn">
@@ -89,6 +143,7 @@ const Pagination: FC<PaginationProps> = ({
             alt="right arrow"
             width={32}
             height={32}
+            onClick={() => onNextClick(currentPage)}
           />
         </div>
       </div>
@@ -97,8 +152,3 @@ const Pagination: FC<PaginationProps> = ({
 };
 
 export default Pagination;
-
-// modify loop so that pagination will remain in bounds with 1 and totalPages
-// modify logic so that when clicked on number visible on screen only on page moves
-// add logic so that pagination can be done with the arrows
-// add double arrow logic , jump 3 pages, setCurrentPage to currentPage + 3

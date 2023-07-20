@@ -1,9 +1,10 @@
 import { FC } from "react";
 import ImageToDisplay from "../imagetodisplay";
 
+import { ImagesToShow } from "./types";
+
 interface DisplayProps {
-  // FIX TYPE
-  imagesToShow: any[];
+  imagesToShow: ImagesToShow[];
 }
 
 const Display: FC<DisplayProps> = ({ imagesToShow }) => {

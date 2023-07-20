@@ -1,22 +1,34 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import SearchBar from "../searchbar";
 import Display from "../display";
 import Pagination from "../pagination";
+import Filter from "../filter";
+
 import "../../../style/main.scss";
+import { ImagesToShow } from "../display/types";
 
 const Gallery = () => {
-  const [currentPage, setCurrentPage] = useState<number>(5);
-  const [image, setImage] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [image, setImage] = useState<ImagesToShow[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("landscape");
   const [imagePerPage] = useState<number>(3);
   const [pagesInView, setPagesInView] = useState<number>(5);
+  const [tags, setTags] = useState<string[]>([]);
 
+  // Filter images based on tag keywords, compare them to all image tags
+  const filteredItems = image.filter((item) => {
+    const itemTags = item.tags.map((tag) => tag.title.toLowerCase());
+    return tags.every((tag) => itemTags.includes(tag));
+  });
+
+  // Determine the index for all images, and determine the index for images on differrent pages
   const startIdx = (currentPage - 1) * imagePerPage;
   const endIdx = startIdx + imagePerPage;
-  const imagesToShow = image.slice(startIdx, endIdx);
+  const imagesToShow = filteredItems.slice(startIdx, endIdx);
 
-  // API
+  // API Call
   const clientId = "hn9AB9ssfHtwEEYspleFrtZZcnS-X52aGiisoFKzhJY";
   const numberOfItems = "&per_page=60";
   const url =
@@ -38,7 +50,12 @@ const Gallery = () => {
       });
   }, [url]);
 
-  // make a function that sets the searchword and pass it down to onSearch
+  const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTags = e.target.value.toLowerCase().split(/\s+/).slice(0, 3);
+    setTags(inputTags);
+  };
+
+  // Make a function that sets the searchword and pass it down to onSearch
   const handleSearch = (keyword: string) => {
     setSearchTerm(keyword);
   };
@@ -55,10 +72,13 @@ const Gallery = () => {
   return (
     <div className="gallery-container">
       <h1 className="project-title">Pagination project</h1>
-      <SearchBar onSearch={handleSearch} />
+      <div className="search__components">
+        <SearchBar onSearch={handleSearch} />
+        <Filter tags={tags} handleTagChange={handleTagChange} />
+      </div>
       <Display imagesToShow={imagesToShow} />
       <Pagination
-        totalPosts={image.length}
+        totalPosts={filteredItems.length}
         imagePerPage={imagePerPage}
         pagesInView={pagesInView}
         currentPage={currentPage}

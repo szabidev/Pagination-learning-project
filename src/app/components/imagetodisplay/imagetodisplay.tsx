@@ -14,8 +14,8 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
         <Image
           src={image.urls.regular}
           alt={image.alt_description}
-          width={300}
-          height={300}
+          layout="fill"
+          objectFit="cover"
           className="image-to-display"
         />
       </div>
@@ -38,3 +38,5 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
 };
 
 export default ImageToDisplay;
+
+// FIX IMAGE LOADING, OPTIMIZE PERFORMANCE

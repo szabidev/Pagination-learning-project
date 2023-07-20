@@ -23,13 +23,18 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
 
   return (
     <div className="searchbar">
-      <form className="searchbar__form" onSubmit={handleSubmit}>
+      <form
+        className="searchbar__form"
+        onSubmit={handleSubmit}
+        data-testid={"form-id"}
+      >
         <input
           type="text"
           placeholder="Search collections..."
           value={searchTerm}
           onChange={handleChange}
           className="searchbar__input"
+          aria-label="searchbar"
         />
         <div className="searchbar__btn--container">
           <button className="searchbar__btn">

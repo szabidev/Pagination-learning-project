@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 
 interface PaginationProps {
   totalPosts: number;
@@ -20,44 +20,50 @@ const Pagination: FC<PaginationProps> = ({
   const [pageDisplayed, setPageDisplayed] = useState<number[]>([]);
   const totalPages = Math.ceil(totalPosts / imagePerPage);
 
-  const calculatePages = (currentPage: number) => {
-    const showLeftAndRight = Math.floor(pagesInView / 2);
-    const stepLeft = currentPage - showLeftAndRight;
-    const lastPageInView =
-      pagesInView % 2 === 0
-        ? currentPage + showLeftAndRight - 1
-        : currentPage + showLeftAndRight;
+  const calculatePages = useCallback(
+    (currentPage: number) => {
+      // No. of page numbers shown on the left and right of currentPage
+      const showLeftAndRight = Math.floor(pagesInView / 2);
+      // First number for pagesInView
+      const stepLeft = currentPage - showLeftAndRight;
+      // Last number for pagesInView, if pagesInView is paired number, show 1 page less on the right than left, otherwise equal pagenumbers on left and right
+      const lastPageInView =
+        pagesInView % 2 === 0
+          ? currentPage + showLeftAndRight - 1
+          : currentPage + showLeftAndRight;
 
-    const leftLimitPage = stepLeft < 1 ? 1 : stepLeft;
-    const rightLimitPage = stepLeft < 1 ? pagesInView : lastPageInView;
+      const leftLimitPage = stepLeft < 1 ? 1 : stepLeft;
+      const rightLimitPage = stepLeft < 1 ? pagesInView : lastPageInView;
 
-    let prevPage = leftLimitPage;
-    let nextPage = rightLimitPage;
+      let prevPage = leftLimitPage;
+      let nextPage = rightLimitPage;
 
-    if (stepLeft < 1) {
-      prevPage = 1;
-      nextPage = pagesInView;
-    } else {
-      if (rightLimitPage > totalPages) {
-        nextPage = totalPages;
-        const nextStep = rightLimitPage - totalPages;
-        prevPage = leftLimitPage - nextStep;
+      if (stepLeft < 1) {
+        prevPage = 1;
+        nextPage = pagesInView;
+      } else {
+        if (rightLimitPage > totalPages) {
+          nextPage = totalPages;
+          const nextStep = rightLimitPage - totalPages;
+          prevPage = leftLimitPage - nextStep;
+        }
       }
-    }
 
-    const pageNumbers = [];
+      const pageNumbers = [];
 
-    for (let i = prevPage; i <= nextPage; i++) {
-      pageNumbers.push(i);
-    }
+      for (let i = prevPage; i <= nextPage; i++) {
+        pageNumbers.push(i);
+      }
 
-    return pageNumbers;
-  };
+      return pageNumbers;
+    },
+    [pagesInView, totalPages]
+  );
 
   useEffect(() => {
     setPageDisplayed(calculatePages(currentPage));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, [currentPage, calculatePages]);
 
   const changePage = (page: number) => {
     setCurrentPage(page);
@@ -92,8 +98,6 @@ const Pagination: FC<PaginationProps> = ({
     }
   };
 
-  console.log(currentPage);
-
   return (
     <div className="pagination__container">
       <div className="pagination">
@@ -119,7 +123,9 @@ const Pagination: FC<PaginationProps> = ({
           {pageDisplayed.map((number) => {
             return (
               <div
-                className="pagination__number"
+                className={`pagination__number ${
+                  number === currentPage ? "selected" : ""
+                }`}
                 key={number}
                 onClick={() => changePage(number)}
               >

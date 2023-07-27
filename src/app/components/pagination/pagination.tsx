@@ -3,23 +3,20 @@ import Image from "next/image";
 import { FC, useCallback, useEffect, useState } from "react";
 
 interface PaginationProps {
-  totalPosts: number;
-  imagePerPage: number;
   pagesInView: number;
   currentPage: number;
+  totalPages: number;
   setCurrentPage: (page: number) => void;
 }
 
 const Pagination: FC<PaginationProps> = ({
-  totalPosts,
-  imagePerPage,
   pagesInView,
   currentPage,
+  totalPages,
   setCurrentPage,
 }) => {
   const [pageDisplayed, setPageDisplayed] = useState<number[]>([]);
-  const totalPages = Math.ceil(totalPosts / imagePerPage);
-
+  console.log(pagesInView);
   const calculatePages = useCallback(
     (currentPage: number) => {
       // No. of page numbers shown on the left and right of currentPage
@@ -31,8 +28,11 @@ const Pagination: FC<PaginationProps> = ({
         pagesInView % 2 === 0
           ? currentPage + showLeftAndRight - 1
           : currentPage + showLeftAndRight;
+      console.log("🚀 ~ file: pagination.tsx:31 ~ pagesInView:", pagesInView);
 
+      // Condition to not go below 1
       const leftLimitPage = stepLeft < 1 ? 1 : stepLeft;
+      // Condition to not go above lastpage number
       const rightLimitPage = stepLeft < 1 ? pagesInView : lastPageInView;
 
       let prevPage = leftLimitPage;

@@ -10,12 +10,12 @@ interface SearchBarProps {
 const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // function for searching in the input
+  // Function for searching in the input
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // function to get the results from the searchbar
+  // Function to set the results from the searchbar
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(searchTerm);

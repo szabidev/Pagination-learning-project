@@ -14,9 +14,12 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
         <Image
           src={image.urls.regular}
           alt={image.alt_description}
-          layout="fill"
-          objectFit="cover"
           className="image-to-display"
+          style={{ objectFit: "cover" }}
+          height={300}
+          width={300}
+          sizes="width:300px"
+          priority
         />
       </div>
       <div className="image__info">

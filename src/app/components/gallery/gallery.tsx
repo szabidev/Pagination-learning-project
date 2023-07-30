@@ -18,22 +18,18 @@ const Gallery = () => {
   const [pagesInView, setPagesInView] = useState<number>(5);
   const [tags, setTags] = useState<string[]>([]);
   const [tagsField, setTagsField] = useState<string>("");
-  console.log("🚀 ~ file: gallery.tsx:21 ~ Gallery ~ tagsField:", tagsField);
 
   // Filter images based on tag keywords, compare them to all image tags
   const filteredItems = image.filter((item) => {
     const itemTags = item.tags.map((tag) => tag.title.toLowerCase());
-    return tags.some((tag) => itemTags.includes(tag));
+    return tags.every((tag) =>
+      itemTags.some((itemTag) => itemTag.includes(tag.replace(/\s+/g, "")))
+    );
   });
   const totalPages =
     filteredItems.length < 1
       ? Math.ceil(image.length / imagePerPage)
       : Math.ceil(filteredItems.length / imagePerPage);
-  console.log("🚀 ~ file: gallery.tsx:26 ~ Gallery ~ totalPages:", totalPages);
-  console.log(
-    "🚀 ~ file: gallery.tsx:27 ~ Gallery ~ filteredItems:",
-    filteredItems
-  );
 
   // Determine the index for all images, and determine the index for images on differrent pages
   const startIdx = (currentPage - 1) * imagePerPage;
@@ -53,17 +49,18 @@ const Gallery = () => {
     numberOfItems;
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const inputTags = e.target.value.toLowerCase().split(/\s+/).slice(0, 3);
-
     setTagsField(e.target.value);
 
-    // setTags(inputTags);
-    setCurrentPage(1);
-  };
+    // Debounce logic
+    let timer;
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      setTags(e.target.value.toLowerCase().split(/\s+/).slice(0, 3));
+    }, 1000);
 
-  // handleCreateTags pasez setTagsField , inputTags
-  const handleCreateTags = (fieldValue: string) => {
-    setTags(fieldValue.toLowerCase().split(/\s+/).slice(0, 3));
+    setCurrentPage(1);
   };
 
   // Function that sets the searchword and pass it down to onSearch
@@ -82,7 +79,6 @@ const Gallery = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setImage(data.results);
       });
   }, [url]);
@@ -96,14 +92,10 @@ const Gallery = () => {
 
   // useEffect to set pages back if there is no filtered items in the list
   useEffect(() => {
-    if (isEmpty(filteredItems)) {
+    if (isEmpty(filteredItems) || totalPages > pagesInView) {
       setPagesInView(5);
     }
-  }, [filteredItems]);
-
-  // useEffect(() => {
-  //   setTags(tagsField.split(/\s+/).slice(0, 3));
-  // }, [tagsField]);
+  }, [filteredItems, totalPages, pagesInView]);
 
   // Loading screen if url is not working
   if (!image) {
@@ -115,12 +107,7 @@ const Gallery = () => {
       <h1 className="project-title">Pagination project</h1>
       <div className="search__components">
         <SearchBar onSearch={handleSearch} />
-        <Filter
-          tags={tags}
-          handleTagChange={handleTagChange}
-          value={tagsField}
-          handleCreateTags={handleCreateTags}
-        />
+        <Filter handleTagChange={handleTagChange} value={tagsField} />
       </div>
       <Display imagesToShow={imagesToShow} />
       <Pagination

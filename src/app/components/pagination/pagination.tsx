@@ -16,7 +16,6 @@ const Pagination: FC<PaginationProps> = ({
   setCurrentPage,
 }) => {
   const [pageDisplayed, setPageDisplayed] = useState<number[]>([]);
-  console.log(pagesInView);
   const calculatePages = useCallback(
     (currentPage: number) => {
       // No. of page numbers shown on the left and right of currentPage
@@ -28,7 +27,6 @@ const Pagination: FC<PaginationProps> = ({
         pagesInView % 2 === 0
           ? currentPage + showLeftAndRight - 1
           : currentPage + showLeftAndRight;
-      console.log("🚀 ~ file: pagination.tsx:31 ~ pagesInView:", pagesInView);
 
       // Condition to not go below 1
       const leftLimitPage = stepLeft < 1 ? 1 : stepLeft;

@@ -1,25 +1,13 @@
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
-import { debounce } from "@/app/helpers/debounce";
 
 interface FilterProps {
-  tags: string[];
   handleTagChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
-  handleCreateTags: (string: string) => void;
 }
 
-const Filter: FC<FilterProps> = ({
-  handleCreateTags,
-  handleTagChange,
-  value,
-}) => {
+const Filter: FC<FilterProps> = ({ handleTagChange, value }) => {
   const [active, setActive] = useState<boolean>(false);
-
-  const handleTagChangeDebounced = (e: ChangeEvent<HTMLInputElement>) => {
-    handleTagChange(e);
-    debounce(handleCreateTags, 1000);
-  };
 
   const handleOnClick = () => {
     setActive(!active);
@@ -38,7 +26,7 @@ const Filter: FC<FilterProps> = ({
             placeholder="Enter up to 3 tags..."
             aria-label="filter"
             value={value}
-            onChange={(e) => handleTagChangeDebounced(e)}
+            onChange={(e) => handleTagChange(e)}
           />
           <div className="filter__search--btn">
             <button className="filter__search--btn__image">

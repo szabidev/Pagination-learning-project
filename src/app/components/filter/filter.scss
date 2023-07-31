@@ -1,7 +1,7 @@
 @import "../../../style/variables";
 
 .filter__container {
-  // position: relative;
+  position: relative;
   .filter__btn {
     font-size: 2.2rem;
     letter-spacing: 0.1rem;
@@ -15,13 +15,63 @@
 
   .filter__form--container {
     position: absolute;
-    bottom: 0;
-    left: 50px;
+    top: 80px;
+    right: 108px;
     opacity: 0;
     transition: opacity 0.3s ease;
 
     &.active {
       opacity: 1;
+    }
+  }
+
+  .filter__form {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 724px;
+    background-color: #fff;
+    border-radius: 30px;
+    // min-height: 48px;
+    padding: 0 8px;
+    // border-radius: 6px;
+  }
+  #tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 14px 0 0 8px;
+  }
+
+  .tag {
+    width: auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 0 8px;
+    font-size: 18px;
+    list-style: none;
+    border-radius: 6px;
+    margin: 0 8px 8px 0;
+    background: $tag-color;
+    .tag-title {
+      margin-top: 3px;
+    }
+    .tag__close-icon {
+      display: block;
+      width: 18px;
+      height: 18px;
+      line-height: 16px;
+      text-align: center;
+      font-size: 18px;
+      margin-left: 8px;
+      color: $tag-color;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
     }
   }
 
@@ -32,7 +82,7 @@
     border: none;
     font-size: 2.2rem;
     color: $input-font-color;
-
+    flex: 1;
     &:focus {
       outline: none;
     }
@@ -44,15 +94,10 @@
     }
   }
 
-  .filter__search--btn__image {
-    position: absolute;
-    top: 7px;
-    right: 0;
-    border: none;
-    background-color: #fff;
-    padding: 1rem 2rem;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    cursor: pointer;
+  .error-message {
+    color: $error-message;
+    font-size: 16px;
+    text-align: center;
+    margin: 8px 0;
   }
 }

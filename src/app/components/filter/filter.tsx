@@ -2,15 +2,36 @@ import { FC, useState } from "react";
 import Image from "next/image";
 
 interface FilterProps {
-  handleTagChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  tags: string[];
+  setTags: (tags: string[]) => void;
+  allTags: string[];
 }
 
-const Filter: FC<FilterProps> = ({ handleTagChange, value }) => {
+const Filter: FC<FilterProps> = ({ tags, setTags, allTags }) => {
   const [active, setActive] = useState<boolean>(false);
+  const [isValidTag, setIsValidTag] = useState<boolean>(true);
 
   const handleOnClick = () => {
     setActive(!active);
+    setTags([]);
+  };
+
+  const removeTags = (indexToRemove: number) => {
+    setTags([...tags.filter((tag, index) => index !== indexToRemove)]);
+  };
+
+  const addTags = (e: any) => {
+    const targetValue = e.target.value.toLowerCase();
+    if (targetValue !== "") {
+      const isTagInAllTags = allTags.some((tag) => tag === targetValue);
+      if (isTagInAllTags) {
+        setTags([...tags, targetValue]);
+        setIsValidTag(true);
+      } else {
+        setIsValidTag(false);
+      }
+      e.target.value = "";
+    }
   };
 
   return (
@@ -19,27 +40,31 @@ const Filter: FC<FilterProps> = ({ handleTagChange, value }) => {
         Filter
       </div>
       <div className={`filter__form--container ${active ? "active" : ""}`}>
-        <form className="filter__form">
+        <div className="filter__form">
+          <ul id="tags">
+            {tags.map((tag, index) => (
+              <li key={index} className="tag">
+                <span className="tag__title">{tag}</span>
+                <span
+                  className="tag__close-icon"
+                  onClick={() => removeTags(index)}
+                >
+                  x
+                </span>
+              </li>
+            ))}
+          </ul>
           <input
             type="text"
             className="filter__input"
             placeholder="Enter up to 3 tags..."
             aria-label="filter"
-            value={value}
-            onChange={(e) => handleTagChange(e)}
+            onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)}
           />
-          <div className="filter__search--btn">
-            <button className="filter__search--btn__image">
-              <Image
-                src="/svg/magnifying_glass.svg"
-                alt="magnifying glass"
-                width={32}
-                height={32}
-                className="filter__btn--icon"
-              />
-            </button>
-          </div>
-        </form>
+        </div>
+        {!isValidTag && (
+          <p className="error-message">Invalid tag, please try again.</p>
+        )}
       </div>
     </div>
   );

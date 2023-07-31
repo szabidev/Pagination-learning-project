@@ -17,15 +17,22 @@ const Gallery = () => {
   const [imagePerPage] = useState<number>(3);
   const [pagesInView, setPagesInView] = useState<number>(5);
   const [tags, setTags] = useState<string[]>([]);
-  const [tagsField, setTagsField] = useState<string>("");
+  // const [tagsField, setTagsField] = useState<string>("");
 
   // Filter images based on tag keywords, compare them to all image tags
   const filteredItems = image.filter((item) => {
     const itemTags = item.tags.map((tag) => tag.title.toLowerCase());
-    return tags.every((tag) =>
+    return tags.some((tag) =>
       itemTags.some((itemTag) => itemTag.includes(tag.replace(/\s+/g, "")))
     );
   });
+
+  // use reduce to get all the tags into a single array
+  const allTags = image.reduce((tagsArray: string[], item: ImagesToShow) => {
+    const itemTags = item.tags.map((tag) => tag.title.toLowerCase());
+    return [...tagsArray, ...itemTags];
+  }, []);
+
   const totalPages =
     filteredItems.length < 1
       ? Math.ceil(image.length / imagePerPage)
@@ -48,20 +55,21 @@ const Gallery = () => {
     searchTerm +
     numberOfItems;
 
-  const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagsField(e.target.value);
+  // no need for debouncer anymore
+  // const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setTagsField(e.target.value);
 
-    // Debounce logic
-    let timer;
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      setTags(e.target.value.toLowerCase().split(/\s+/).slice(0, 3));
-    }, 1000);
+  //   // Debounce logic
+  //   let timer;
+  //   if (timer) {
+  //     clearTimeout(timer);
+  //   }
+  //   timer = setTimeout(() => {
+  //     setTags(e.target.value.toLowerCase().split(/\s+/).slice(0, 3));
+  //   }, 1000);
 
-    setCurrentPage(1);
-  };
+  //   setCurrentPage(1);
+  // };
 
   // Function that sets the searchword and pass it down to onSearch
   const handleSearch = (keyword: string) => {
@@ -104,10 +112,10 @@ const Gallery = () => {
 
   return (
     <div className="gallery-container">
-      <h1 className="project-title">Pagination project</h1>
+      {/* <h1 className="project-title">Pagination project</h1> */}
       <div className="search__components">
         <SearchBar onSearch={handleSearch} />
-        <Filter handleTagChange={handleTagChange} value={tagsField} />
+        <Filter tags={tags} setTags={setTags} allTags={allTags} />
       </div>
       <Display imagesToShow={imagesToShow} />
       <Pagination

@@ -1,0 +1,27 @@
+@import "../../../style/variables";
+
+.header {
+  position: relative;
+  z-index: 10000;
+  &__container {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 50px;
+
+    &--list {
+      margin: 0 auto;
+      width: 500px;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .list__item--link {
+      text-decoration: none;
+      font-size: 3rem;
+      color: $input-font-color;
+      cursor: pointer;
+    }
+  }
+}

@@ -19,7 +19,7 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
           height={300}
           width={300}
           sizes="width:300px"
-          priority
+          priority={true}
         />
       </div>
       <div className="image__info">

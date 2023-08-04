@@ -5,9 +5,15 @@ interface FilterProps {
   tags: string[];
   setTags: (tags: string[]) => void;
   allTags: string[];
+  setCurrentPage: (page: number) => void;
 }
 
-const Filter: FC<FilterProps> = ({ tags, setTags, allTags }) => {
+const Filter: FC<FilterProps> = ({
+  tags,
+  setTags,
+  allTags,
+  setCurrentPage,
+}) => {
   const [active, setActive] = useState<boolean>(false);
   const [isValidTag, setIsValidTag] = useState<boolean>(true);
 
@@ -31,6 +37,7 @@ const Filter: FC<FilterProps> = ({ tags, setTags, allTags }) => {
         setIsValidTag(false);
       }
       e.target.value = "";
+      setCurrentPage(1);
     }
   };
 

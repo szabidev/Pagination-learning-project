@@ -1,9 +1,11 @@
-html {
+html,
+body {
   box-sizing: border-box;
   font-size: 62.5%; // 10px
+  margin: 0px !important;
+  padding: 0px !important;
 }
 
-body {
-  background-image: url("../../public/images/page_background.jpg");
-  background-attachment: fixed;
+.page__content {
+  backdrop-filter: blur(0px) !important;
 }

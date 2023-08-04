@@ -1,27 +1,50 @@
 @import "../../../style/variables";
 
 .header {
-  position: relative;
-  z-index: 10000;
+  background: #231942;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    z-index: 1000;
+    color: #fff;
+    font-size: 3rem;
+    cursor: pointer;
+    padding-left: 50px;
+    font-weight: 300;
+    text-decoration: none;
+  }
+
   &__container {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-    margin-bottom: 50px;
+    display: flex;
+    justify-content: flex-end;
+    height: 60px;
+    padding-right: 50px;
 
     &--list {
-      margin: 0 auto;
-      width: 500px;
+      height: 60px;
+      margin: 0;
+      width: 300px;
       list-style: none;
       display: flex;
       justify-content: space-between;
-      padding: 10px 0;
+      align-items: center;
     }
 
     .list__item--link {
       text-decoration: none;
-      font-size: 3rem;
-      color: $input-font-color;
+      font-size: 2rem;
+      color: #fff;
       cursor: pointer;
+      padding: 14px;
+      border-radius: 4px;
+    }
+
+    .active {
+      background-color: #d90429;
     }
   }
 }

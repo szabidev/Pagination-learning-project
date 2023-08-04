@@ -1,0 +1,133 @@
+@import "../../style/variables.scss";
+
+.contact__info {
+  background-image: url("../../../public/images/contact_background.jpg");
+  background-attachment: fixed;
+  position: relative;
+  min-height: calc(100vh - 120px);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  &--form {
+    max-width: 1000px;
+    backdrop-filter: blur(0px);
+    margin: 0 auto;
+    padding: 30px 0px;
+
+    h1 {
+      text-align: center;
+      font-weight: 400;
+      color: $input-font-color;
+      margin-top: 0;
+      margin-bottom: 3rem;
+      font-size: 3rem;
+    }
+
+    &-email {
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      width: 70%;
+      margin-bottom: 20px;
+
+      label {
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+
+      #email {
+        padding: 10px;
+        border-radius: 8px;
+        outline: none;
+        font-size: 1.5rem;
+        border: none;
+      }
+    }
+
+    &-name {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+      width: 70%;
+      margin-bottom: 20px;
+
+      label {
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+
+      .first-name {
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+
+        #first {
+          padding: 10px;
+          border-radius: 8px;
+          outline: none;
+          font-size: 1.5rem;
+          border: none;
+        }
+      }
+
+      .last-name {
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+
+        #last {
+          padding: 10px;
+          border-radius: 8px;
+          outline: none;
+          font-size: 1.5rem;
+          border: none;
+        }
+      }
+    }
+
+    &-message {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+      margin: 0 auto;
+      margin-bottom: 20px;
+
+      label {
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+
+      #message {
+        padding: 10px;
+        border-radius: 8px;
+        outline: none;
+        font-size: 1.5rem;
+        border: none;
+      }
+    }
+
+    &-btn {
+      text-align: center;
+      .submit__btn {
+        font-size: 1.5rem;
+        width: 30%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}

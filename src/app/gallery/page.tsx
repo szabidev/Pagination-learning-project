@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import SearchBar from "../searchbar";
-import Display from "../display";
-import Pagination from "../pagination";
-import Filter from "../filter";
+import SearchBar from "../components/searchbar";
+import Display from "../components/display";
+import Pagination from "../components/pagination";
+import Filter from "../components/filter";
 
-import "../../../style/main.scss";
-import { ImagesToShow } from "../display/types";
+import "../../style/main.scss";
+import { ImagesToShow } from "../components/display/types";
 import { isEmpty } from "lodash";
+import "./gallery.scss";
 
 const Gallery = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -111,11 +112,16 @@ const Gallery = () => {
   }
 
   return (
-    <div className="gallery-container">
+    <div className="gallery-container page__content">
       {/* <h1 className="project-title">Pagination project</h1> */}
       <div className="search__components">
         <SearchBar onSearch={handleSearch} />
-        <Filter tags={tags} setTags={setTags} allTags={allTags} />
+        <Filter
+          tags={tags}
+          setTags={setTags}
+          allTags={allTags}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
       <Display imagesToShow={imagesToShow} />
       <Pagination

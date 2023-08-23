@@ -1,8 +1,13 @@
 @import "../../../style/variables";
+@import "../../../style/functions";
 
 .searchbar {
   width: 700px;
   position: relative;
+
+  @include mobile-only-xxs {
+    width: 300px;
+  }
 
   &__input {
     width: 700px;

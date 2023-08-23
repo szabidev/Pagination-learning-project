@@ -1,6 +1,4 @@
 import { FC, useState } from "react";
-import Image from "next/image";
-
 interface FilterProps {
   tags: string[];
   setTags: (tags: string[]) => void;

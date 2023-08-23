@@ -1,7 +1,14 @@
+@import "../../../style/functions";
+@import "../../../style/variables";
+
 .footer {
   background: #231942;
   height: 60px;
   overflow: hidden;
+
+  @include mobile-only {
+    height: 120px;
+  }
 
   &__container {
     width: 100%;
@@ -10,9 +17,17 @@
     align-items: center;
     color: #fff;
 
+    @include mobile-only {
+      flex-direction: column;
+    }
+
     &--socials {
       display: flex;
       align-items: center;
+
+      @include mobile-only {
+        margin-left: 8px;
+      }
       .contact {
         font-size: 20px;
         margin-right: 5px;
@@ -20,6 +35,11 @@
       .icons {
         margin-right: 15px;
         cursor: pointer;
+
+        @include mobile-only {
+          margin-left: 15px;
+          margin-right: 0;
+        }
       }
     }
 

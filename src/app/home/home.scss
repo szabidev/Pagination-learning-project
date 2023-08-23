@@ -1,8 +1,20 @@
+@import "../../style/functions";
+@import "../../style/variables";
+
 .homepage {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 120px);
+
+  @include mobile-only {
+    padding: 10px;
+  }
+
+  @include laptop-small {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
 
   &__description {
     max-width: 1000px;
@@ -14,6 +26,14 @@
     p {
       font-size: 2.5rem;
       line-height: 125%;
+
+      @include mobile-only {
+        font-size: 1.8rem;
+      }
+
+      @include tablet {
+        font-size: 2rem;
+      }
     }
   }
 }

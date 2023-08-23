@@ -41,5 +41,3 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
 };
 
 export default ImageToDisplay;
-
-// FIX IMAGE LOADING, OPTIMIZE PERFORMANCE

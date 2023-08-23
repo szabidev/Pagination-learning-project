@@ -18,7 +18,6 @@ const Gallery = () => {
   const [imagePerPage] = useState<number>(3);
   const [pagesInView, setPagesInView] = useState<number>(5);
   const [tags, setTags] = useState<string[]>([]);
-  // const [tagsField, setTagsField] = useState<string>("");
 
   // Filter images based on tag keywords, compare them to all image tags
   const filteredItems = image.filter((item) => {
@@ -113,7 +112,6 @@ const Gallery = () => {
 
   return (
     <div className="gallery-container page__content">
-      {/* <h1 className="project-title">Pagination project</h1> */}
       <div className="search__components">
         <SearchBar onSearch={handleSearch} />
         <Filter

@@ -1,12 +1,12 @@
 import { Roboto } from "next/font/google";
 import "./home.scss";
+
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700"],
   style: ["italic", "normal"],
   subsets: ["latin"],
 });
 
-// check why font does not work
 const HomePage = () => {
   return (
     <div className={`${roboto.className} homepage`}>

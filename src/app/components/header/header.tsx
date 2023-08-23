@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 const Header = () => {
   const currentRoute = usePathname();
   return (

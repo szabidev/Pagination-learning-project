@@ -18,8 +18,9 @@ const ImageToDisplay: FC<ImageToDisplayProps> = ({ image }) => {
           style={{ objectFit: "cover" }}
           height={300}
           width={300}
-          sizes="width:300px"
+          // sizes="width:300px"
           priority={true}
+          layout="responsive"
         />
       </div>
       <div className="image__info">

@@ -1,3 +1,6 @@
+@import "../../style/variables";
+@import "../../style/functions";
+
 .gallery-container {
   background-image: url("../../../public/images/page_background.jpg");
   background-attachment: fixed;
@@ -36,4 +39,9 @@
   justify-content: space-evenly;
   align-items: center;
   margin-bottom: 60px;
+
+  @include mobile-only-xxs {
+    width: 300px;
+    flex-direction: column;
+  }
 }

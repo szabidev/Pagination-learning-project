@@ -1,3 +1,6 @@
+@import "../../../style/variables";
+@import "../../../style/functions";
+
 .display__container {
   width: 75%;
   margin: 0 auto;
@@ -6,4 +9,9 @@
   padding: 5rem 6rem;
   overflow-x: hidden;
   gap: 4rem;
+
+  @include mobile-only-xxs {
+    flex-direction: column;
+    margin-top: 80px;
+  }
 }

@@ -14,7 +14,7 @@ const Filter: FC<FilterProps> = ({
 }) => {
   const [active, setActive] = useState<boolean>(false);
   const [isValidTag, setIsValidTag] = useState<boolean>(true);
-
+  console.log(tags)
   const handleOnClick = () => {
     setActive(!active);
     setTags([]);
@@ -64,6 +64,7 @@ const Filter: FC<FilterProps> = ({
             className="filter__input"
             placeholder="Enter up to 3 tags..."
             aria-label="filter"
+            disabled={tags.length === 3}
             onKeyUp={(event) => (event.key === "Enter" ? addTags(event) : null)}
           />
         </div>

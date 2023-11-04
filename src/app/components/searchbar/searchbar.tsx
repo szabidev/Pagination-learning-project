@@ -18,7 +18,9 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
   // Function to set the results from the searchbar
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(searchTerm);
+    if(searchTerm.length !== 0) {
+      onSearch(searchTerm);
+    }
   };
 
   return (
@@ -37,7 +39,7 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
           aria-label="searchbar"
         />
         <div className="searchbar__btn--container">
-          <button className="searchbar__btn">
+          {searchTerm.length !== 0 && <button className="searchbar__btn">
             <Image
               // path for svg file, without public to work in nextjs
               src="/svg/magnifying_glass.svg"
@@ -45,8 +47,9 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
               width={32}
               height={32}
               className="searcbhar__btn--icon"
+              onClick={handleSubmit}
             />
-          </button>
+          </button>}
         </div>
       </form>
     </div>

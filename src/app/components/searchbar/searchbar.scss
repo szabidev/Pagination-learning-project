@@ -7,6 +7,7 @@
 
   @include mobile-only-xxs {
     width: 300px;
+    margin-right: 10px;
   }
 
   &__input {
@@ -26,6 +27,11 @@
       letter-spacing: 0.2rem;
       color: $input-font-color;
     }
+
+    @include mobile-only-xxs {
+      width: 270px;
+      
+    }
   }
 
   &__btn {
@@ -38,5 +44,9 @@
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     cursor: pointer;
+
+    @include mobile-only-xxs {
+      right: -10px;
+    }
   }
 }

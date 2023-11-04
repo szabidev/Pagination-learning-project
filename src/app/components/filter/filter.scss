@@ -1,7 +1,9 @@
 @import "../../../style/variables";
+@import "../../../style/functions";
 
 .filter__container {
   position: relative;
+
   .filter__btn {
     font-size: 2.2rem;
     letter-spacing: 0.1rem;
@@ -23,6 +25,11 @@
     &.active {
       opacity: 1;
     }
+
+    @include mobile-only-xxs {
+      left: -100px;
+      width: 280px;
+    }
   }
 
   .filter__form {
@@ -32,16 +39,29 @@
     width: 724px;
     background-color: #fff;
     border-radius: 30px;
-    // min-height: 48px;
     padding: 0 8px;
-    // border-radius: 6px;
+    position: relative;
+
+    @include mobile-only-xxs {
+      width: 280px;
+      // flex-wrap: nowrap;
+    }
   }
+
   #tags {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     padding: 0;
     margin: 14px 0 0 8px;
+
+    @include mobile-only-xxs {
+      width: 320px;
+      justify-content: center;
+      position: absolute;
+      top: 55px;
+      left: -15px;
+    }
   }
 
   .tag {
@@ -57,9 +77,16 @@
     border-radius: 6px;
     margin: 0 8px 8px 0;
     background: $tag-color;
+
+    @include mobile-only-xxs {
+      font-size: 14px;
+
+    }
+
     .tag-title {
       margin-top: 3px;
     }
+
     .tag__close-icon {
       display: block;
       width: 18px;
@@ -91,6 +118,10 @@
       font-size: 2.2rem;
       letter-spacing: 0.2rem;
       color: $input-font-color;
+    }
+
+    @include mobile-only-xxs {
+      width: 100px;
     }
   }
 
